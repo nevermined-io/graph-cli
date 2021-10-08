@@ -67,8 +67,8 @@ module.exports = {
       // We don't want codegen to run without these conditions
       // because that would mean the CLI would generate code to
       // the wrong AssemblyScript version.
-      await assertManifestApiVersion(manifest, '0.0.5')
-      await assertGraphTsVersion(path.dirname(manifest), '0.22.0')
+      await assertManifestApiVersion(manifest, '0.0.6')
+      await assertGraphTsVersion(path.dirname(manifest), '0.23.0')
     } catch (e) {
       print.error(e.message)
       process.exitCode = 1

@@ -199,8 +199,8 @@ module.exports = {
       // We don't want the deploy to run without these conditions
       // because that would mean the CLI would try to compile code
       // using the wrong AssemblyScript compiler.
-      await assertManifestApiVersion(manifest, '0.0.5')
-      await assertGraphTsVersion(path.dirname(manifest), '0.22.0')
+      await assertManifestApiVersion(manifest, '0.0.6')
+      await assertGraphTsVersion(path.dirname(manifest), '0.23.0')
     } catch (e) {
       print.error(e.message)
       process.exitCode = 1
