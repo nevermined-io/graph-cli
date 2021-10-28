@@ -1,3 +1,4 @@
+// TODO: move ABI methods to another file
 const fs = require('fs-extra')
 const path = require('path')
 const prettier = require('prettier')
@@ -50,6 +51,7 @@ const generatePackageJson = ({ subgraphName, node }) =>
 
 // Subgraph manifest
 
+// TODO: generate manifest based of chain
 const generateManifest = ({ abi, address, network, contractName }) =>
   prettier.format(
     `
@@ -185,6 +187,7 @@ const generateEventFieldAssignments = event =>
     [],
   )
 
+// TODO: see Subgraph.handlerTypes
 const generateEventIndexingHandlers = (events, contractName) =>
   `
   import { ${events.map(
@@ -289,6 +292,7 @@ const generateMapping = ({ abi, indexEvents, contractName }) => {
   )
 }
 
+// TODO: ABI
 const generateScaffold = async (
   { abi, address, network, subgraphName, indexEvents, contractName = 'Contract', node },
   spinner,

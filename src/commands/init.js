@@ -1,3 +1,4 @@
+// TODO: move ABI methods to another file
 const chalk = require('chalk')
 const fetch = require('node-fetch')
 const immutable = require('immutable')
@@ -18,6 +19,7 @@ const { abiEvents, generateScaffold, writeScaffold } = require('../scaffold')
 // TODO: Use Protocol class to getABI
 const ABI = require('../protocols/ethereum/abi')
 
+// TODO: should be a map for each chain/protocol
 const networkChoices = [
   'mainnet',
   'kovan',
@@ -45,6 +47,10 @@ const networkChoices = [
   'optimism-kovan'
 ]
 
+const NEAR_HELP = `
+`
+
+// TODO: add --chain, and handle --network to be 
 const HELP = `
 ${chalk.bold('graph init')} [options] [subgraph-name] [directory]
 
@@ -64,11 +70,20 @@ ${chalk.dim('Choose mode with one of:')}
 
 ${chalk.dim('Options for --from-contract:')}
 
+      --chain <ethereum-based|near> ${''/*TODO: take from chain map*/}
+
+${chalk.dim('Options for each chain:')}
+
+${chalk.dim('Ethereum:')}
       --abi <path>              Path to the contract ABI (default: download from Etherscan)
-      --network <${networkChoices.join('|')}>
-                                Selects the network the contract is deployed to
       --index-events            Index contract events as entities
       --contract-name           Name of the contract (default: Contract)      
+      --network                 Selects the network the contract is deployed to
+                                  <${networkChoices.join('|') /* TODO: handle this somehow */}>
+
+${chalk.dim('NEAR:')}
+      --network                 Selects the network the contract is deployed to
+                                  <${'mainnet|testnet' /* TODO: handle this somehow */}>
 `
 
 const processInitForm = async (
@@ -92,13 +107,38 @@ const processInitForm = async (
   let abiFromEtherscan = undefined
   let abiFromFile = undefined
 
+  let nearQuestions = [
+    {
+      skip: network !== 'near'// gerar automático
+    }
+  ]
+
   let questions = [
+    // TODO: new first question: which chain?
+    // {
+    //   type: 'select',
+    //   name: 'product',
+    //   message: 'Which chain?',
+    //   choices: ['evm-compat', 'near'],
+    //   skip: 
+    //     product === 'subgraph-studio' ||
+    //     product === 'hosted-service' ||
+    //     studio !== undefined || node !== undefined,
+    //   result: value => {
+    //     if (value == 'subgraph-studio') {
+    //       allowSimpleName = true
+    //     }
+    //     product = value
+    //     return value
+    //   },
+    // },
     {
       type: 'select',
       name: 'product',
       message: 'Product for which to initialize',
       choices: ['subgraph-studio', 'hosted-service'],
-      skip: 
+      skip: // skip if not evm
+        // chain !== 'evm-compat' ||
         product === 'subgraph-studio' ||
         product === 'hosted-service' ||
         studio !== undefined || node !== undefined,
@@ -147,7 +187,7 @@ const processInitForm = async (
       type: 'select',
       name: 'network',
       message: 'Ethereum network',
-      choices: networkChoices,
+      choices: networkChoices,// TODO: different choices based of chain
       skip: fromExample !== undefined,
       initial: network || 'mainnet',
       result: value => {
@@ -166,6 +206,8 @@ const processInitForm = async (
           return true
         }
 
+        // TODO: Add pattern for NEAR
+        // also check if we can centralize address/account validation (ethereum and near)
         // Validate whether the address is valid
         if (!addressPattern.test(value)) {
           return `Contract address "${value}" is invalid.
@@ -179,6 +221,7 @@ const processInitForm = async (
           return value
         }
 
+        // TODO: skip if chain !== evm-compat
         // Try loading the ABI from Etherscan, if none was provided
         if (!abi) {
           try {
@@ -196,7 +239,7 @@ const processInitForm = async (
       type: 'input',
       name: 'abi',
       message: 'ABI file (path)',
-      initial: abi,
+      initial: abi,// skip !== 
       skip: () => fromExample !== undefined || abiFromEtherscan !== undefined,
       validate: async value => {
         if (fromExample || abiFromEtherscan) {
@@ -387,6 +430,7 @@ module.exports = {
       deploy: yarn ? 'yarn deploy' : 'npm run deploy',
     }
 
+    // TODO: break fromExample -> NEAR
     // If all parameters are provided from the command-line,
     // go straight to creating the subgraph from the example
     if (fromExample && subgraphName && directory) {

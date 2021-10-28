@@ -32,6 +32,8 @@ describe('Init', () => {
   beforeAll(removeSubgraphDirs)
   afterAll(removeSubgraphDirs)
 
+  // TODO: add chain parameter for all tests (ethereum)
+
   cliTest(
     'From example',
     [
@@ -48,6 +50,8 @@ describe('Init', () => {
       cwd: baseDir,
     },
   )
+
+  // TODO: add From example NEAR -> BREAKS/THROWS
 
   cliTest(
     'From contract',
@@ -122,4 +126,6 @@ describe('Init', () => {
     'init/from-contract-with-overloaded-elements',
     { exitCode: 0, timeout: 100000, cwd: baseDir },
   )
+
+  // TODO: add From contract NEAR
 })
