@@ -14,7 +14,7 @@ const protocolTypeToGraphQL = (protocol, name) => {
 }
 
 const generateField = ({ name, type, protocolName }) =>
-  `${name}: ${protocolTypeToGraphQL(protocolName, type)}! # ${type}`
+  `${name === 'id' ? '_id' : name}: ${protocolTypeToGraphQL(protocolName, type)}! # ${type}`
 
 const generateEventFields = ({ index, input, protocolName }) =>
   input.type == 'tuple'
