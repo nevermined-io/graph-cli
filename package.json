@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/graph-cli",
-  "version": "0.30.3",
+  "version": "0.30.4",
   "description": "CLI for building for and deploying to The Graph",
   "dependencies": {
     "assemblyscript": "0.19.10",
