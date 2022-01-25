@@ -3,7 +3,8 @@ const ABI = require('../abi')
 
 const source = ({ contract, contractName }) => `
       address: '${contract}'
-      abi: ${contractName}`
+      abi: ${contractName}
+      startBlock: 10`
 
 const mapping = ({ abi, contractName }) => `
       kind: ethereum/events

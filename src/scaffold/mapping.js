@@ -3,7 +3,7 @@ const path = require('path')
 const util = require('../codegen/util')
 
 const generateFieldAssignment = path =>
-  `entity.${path.join('_')} = event.params.${path.join('.')}`
+  `entity.${path.join('_') === 'id' ? '_id' : path.join('_')} = event.params.${path.join('.')}`
 
 const generateFieldAssignments = ({ index, input }) =>
   input.type === 'tuple'
